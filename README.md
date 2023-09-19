@@ -7,3 +7,5 @@ Using the plugin is straightforward, it takes four shapefiles that represent the
 
 To build a RORB control vector, select the **Build RORB** process.  
 To build a WBNM runfile, select the **Build WBNM** process (Currently Unavailable).
+
+For support contact tom@normcosystems.com
