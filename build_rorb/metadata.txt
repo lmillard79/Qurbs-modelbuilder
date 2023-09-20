@@ -11,8 +11,8 @@ author=Tom Norman
 email=tom@normcosystems.com
 
 about=Runoff Model: RORB builds the RORB control vector from a catchment that has been delineated as shapefiles.
-
-        The Runoff Model plugin requires the Pyromb library to be installed, please refer to the homepage for instructions.  
+    
+    Requires the Pyromb library to be installed to the QGIS environment, please refer to the homepage for instructions. 
 
 tracker=https://github.com/norman-tom/pyromb/issues
 repository=https://github.com/norman-tom/runoff-model
@@ -42,7 +42,7 @@ deprecated=False
 # plugin_dependencies=
 
 Category of the plugin: Raster, Vector, Database or Web
-category=Vector
+# category=
 
 # If the plugin can run on QGIS Server.
 server=False
