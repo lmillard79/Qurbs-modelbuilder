@@ -32,6 +32,8 @@ __revision__ = '$Format:%H$'
 
 from qgis.core import QgsProcessingProvider
 from .build_rorb_algorithm import BuildRorbAlgorithm
+from qgis.PyQt.QtGui import QIcon
+from . import resources
 
 
 class BuildRorbProvider(QgsProcessingProvider):
@@ -79,7 +81,7 @@ class BuildRorbProvider(QgsProcessingProvider):
         Should return a QIcon which is used for your provider inside
         the Processing toolbox.
         """
-        return QgsProcessingProvider.icon(self)
+        return QIcon(':/plugins/build_rorb/icon.png')
 
     def longName(self):
         """
