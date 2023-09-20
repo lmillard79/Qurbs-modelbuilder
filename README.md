@@ -1,4 +1,4 @@
-# runoff-model
+# Runoff-model
 The Runoff Model Builder QGIS plugin is a convenient wrapper for the Pyromb library so that RORB and WBNM control files can be built directly from QGIS.
   
 The Pyromb library and documentation is located here -> [Pyromb](https://github.com/norman-tom/pyromb)
@@ -9,3 +9,6 @@ To build a RORB control vector, select the **Build RORB** process.
 To build a WBNM runfile, select the **Build WBNM** process (Currently Unavailable).
 
 Maintained by tom@normcosystems.com
+
+## Dependencies 
+The Runoff-model plugin depends on the Python package Pyromb. To install this package for QGIS please refer to the Pyromb homepage (linked above) for instructions. 
