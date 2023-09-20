@@ -56,8 +56,6 @@ class BuildRorbProvider(QgsProcessingProvider):
         Loads all algorithms belonging to this provider.
         """
         self.addAlgorithm(BuildRorbAlgorithm())
-        # add additional algorithms here
-        # self.addAlgorithm(MyOtherAlgorithm())
 
     def id(self):
         """
