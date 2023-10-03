@@ -8,7 +8,5 @@ Using the plugin is straightforward, it takes four shapefiles that represent the
 To build a RORB control vector, select the **Build RORB** process.  
 To build a WBNM runfile, select the **Build WBNM** process (Currently Unavailable).
 
-Maintained by tom@normcosystems.com
-
 ## Dependencies 
 The Runoff-model plugin depends on the Python package Pyromb. To install this package for QGIS please refer to the Pyromb homepage (linked above) for instructions. 
