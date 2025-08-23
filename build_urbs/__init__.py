@@ -9,9 +9,9 @@
  *                                                                         *
  ***************************************************************************/
 """
-__author__ = 'Tom Norman'
+__author__ = 'Lindsay Millard'
 __date__ = '2025-08-20'
-__copyright__ = '(C) 2025 by Tom Norman'
+__copyright__ = '(C) 2025 Tom Norman Lindsay Millard'
 
 # This will get replaced with a git SHA1 when you do a git archive
 
