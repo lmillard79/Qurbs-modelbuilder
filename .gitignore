@@ -161,3 +161,4 @@ cython_debug/
 
 # Custom
 *.zip
+install_to_qgis.txt

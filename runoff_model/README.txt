@@ -1,26 +1,26 @@
-# Build URBS Plugin
+# Runoff Model
 
-This QGIS plugin generates URBS control vector files from GIS layers for hydrological modeling.
+The Runoff Model suite of QGIS plugin generates RURB and URBS control vector files from GIS layers for hydrological modeling.
 
 ## Description
 
-The Build URBS plugin is part of the Runoff Model Builder (pyromb) suite of tools. It takes input GIS layers representing catchment reaches, basins, centroids, and confluences and generates a URBS-compatible control vector file (.catg).
+The helps builds either RORB or URBS plugin is part of the Runoff Model Builder (pyromb) suite of tools. It takes input GIS layers representing catchment reaches, basins, centroids, and confluences and generates a control vector file (.catg) for the chosed hydrology model.
 
-URBS (Urban Runoff Block Structure) is a hydrological model used for catchment runoff modeling in Australia.
+Both RORB and URBS (Urban Runoff Block Structure) are hydrological models used for catchment runoff modeling in Australia.
 
 ## Features
 
-- Generate URBS control vector files from GIS layers
-- Supports the same input layer structure as Build RORB plugin
-- Easy integration with QGIS processing framework
+- Generate RORB and URBS control vector files from GIS layers
+- Supports the same input layer structure between plugins
+- Integrated within the QGIS processing framework
 
 ## Installation
 
-### Method 1: Install from QGIS Plugin Manager (once published)
+### Method 1: Install from QGIS Plugin Manager
 1. Open QGIS
 2. Go to Plugins > Manage and Install Plugins
-3. Search for "ROM Builder: URBS"
-4. Install the plugin
+3. Search for "Runoff Model Builder"
+4. Install for all model builders.
 
 ### Method 2: Manual Installation
 1. Download or clone this repository
@@ -48,8 +48,8 @@ https://gis.stackexchange.com/questions/107414/installing-python-packages-in-qgi
 
 1. Open QGIS
 2. Go to Processing Toolbox
-3. Find "ROM Builder: URBS" in the algorithms list
-4. Run the "Build URBS Control Vector" algorithm
+3. Find "Runoff Model: RORB or URBS" in the algorithms list
+4. Run the "Build Control Vector" algorithm
 5. Select your input layers:
    - Reach layer (line features)
    - Basin layer (polygon features)
@@ -61,7 +61,7 @@ https://gis.stackexchange.com/questions/107414/installing-python-packages-in-qgi
 ## Requirements
 
 - QGIS 3.22 or later
-- pyromb library (https://github.com/norman-tom/pyromb)
+- pyromb library (https://github.com/norman-tom/pyromb) v0.3
 
 ## License
 

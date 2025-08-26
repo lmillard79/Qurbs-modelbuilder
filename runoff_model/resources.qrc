@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/plugins/build_URBS" >
+    <qresource prefix="/plugins/runoff_model" >
         <file>icon.png</file>
     </qresource>
 </RCC>

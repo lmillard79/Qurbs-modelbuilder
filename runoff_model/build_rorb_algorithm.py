@@ -12,7 +12,7 @@
 """
 
 __author__ = 'Tom Norman'
-__date__ = '2025-08-20'
+__date__ = '2023-06-15'
 __copyright__ = '(C) 2025 by Tom Norman'
 
 # This will get replaced with a git SHA1 when you do a git archive
@@ -24,137 +24,153 @@ from qgis.core import (QgsProcessing,
                        QgsFeatureSink,
                        QgsProcessingAlgorithm,
                        QgsProcessingParameterFeatureSource,
-                       QgsProcessingParameterFileDestination,
-                       QgsProcessingParameterNumber,
-                       QgsProcessingParameterString,
-                       QgsProcessingOutputNumber,
-                       QgsProcessingParameterDefinition,
-                       QgsVectorLayer)
-from qgis.PyQt.QtGui import QIcon
-import processing
-import os
-
-from .custom_types.qvector_layer import QVectorLayer
+                       QgsProcessingParameterFileDestination)
 import pyromb
+from .custom_types.qvector_layer import QVectorLayer
 
 
-class BuildUrbsAlgorithm(QgsProcessingAlgorithm):
+class BuildRorbAlgorithm(QgsProcessingAlgorithm):
     """
-    This algorithm builds a URBS control vector file from input GIS layers.
+    Build a RORB control vector from a GIS representation. 
+
+    The plugin depends on python library gisrompy.
     """
 
     # Constants used to refer to parameters and outputs. They will be
-    # used when calling the algorithm from another algorithm, or when calling
-    # from the QGIS console.
+    # used when calling the algorithm from another algorithm, or when
+    # calling from the QGIS console.
 
+    OUTPUT = 'OUTPUT'
     IN_REACH = 'IN_REACH'
     IN_BASIN = 'IN_BASIN'
     IN_CENTROID = 'IN_CENTROID'
     IN_CONFLUENCE = 'IN_CONFLUENCE'
-    OUTPUT = 'OUTPUT'
 
     def initAlgorithm(self, config):
-        """
-        Here we define the inputs and output of the algorithm, along
-        with some other properties.
-        """
-
+        # Input layer for the reaches
         self.addParameter(
             QgsProcessingParameterFeatureSource(
                 self.IN_REACH,
-                self.tr('Reach layer'),
+                self.tr('Reach'),
                 [QgsProcessing.TypeVectorLine]
             )
         )
-
+        # Input layer for the basins
         self.addParameter(
             QgsProcessingParameterFeatureSource(
                 self.IN_BASIN,
-                self.tr('Basin layer'),
+                self.tr('Basin'),
                 [QgsProcessing.TypeVectorPolygon]
             )
         )
-
+        # Input layer for the centroids
         self.addParameter(
             QgsProcessingParameterFeatureSource(
                 self.IN_CENTROID,
-                self.tr('Centroid layer'),
+                self.tr('Centroid'),
                 [QgsProcessing.TypeVectorPoint]
             )
         )
-
+        # Input layers for the confluences
         self.addParameter(
             QgsProcessingParameterFeatureSource(
                 self.IN_CONFLUENCE,
-                self.tr('Confluence layer'),
+                self.tr('Confluence'),
                 [QgsProcessing.TypeVectorPoint]
             )
         )
-
+        # Output the control vector .cat file. 
         self.addParameter(
             QgsProcessingParameterFileDestination(
                 self.OUTPUT,
-                self.tr('URBS control vector file'),
-                self.tr('Control vector (*.catg)')
+                self.tr('Control File'),
+                "Control Vector (*.cat)" 
             )
         )
 
     def processAlgorithm(self, parameters, context, feedback):
-        """
-        Here is where the processing itself takes place.
-        """
-
+        # Retrieve the feature source and sink.
         reaches = self.parameterAsSource(parameters, self.IN_REACH, context)
         basins = self.parameterAsSource(parameters, self.IN_BASIN, context)
         centroids = self.parameterAsSource(parameters, self.IN_CENTROID, context)
         confluences = self.parameterAsSource(parameters, self.IN_CONFLUENCE, context)
         sink = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
 
+        ### Build Catchment Objects ###
+        # Vector layers 
         reach_vector = QVectorLayer(reaches)
         basin_vector = QVectorLayer(basins)
         centroid_vector = QVectorLayer(centroids)
         confluence_vector = QVectorLayer(confluences)
-
+        # Create the builder. 
         builder = pyromb.Builder()
+        # Build each element as per the vector layer.
         tr = builder.reach(reach_vector)
         tc = builder.confluence(confluence_vector)
         tb = builder.basin(centroid_vector, basin_vector)
-
+    
+        ### Create the catchment ### 
         catchment = pyromb.Catchment(tc, tb, tr)
         catchment.connect()
+        # Create the traveller and pass the catchment.
         traveller = pyromb.Traveller(catchment)
 
-        with open(sink, 'w') as f:
-            f.write(traveller.getVector(pyromb.URBS()))
+        # Update the progress bar
+        feedback.setProgress(1)
 
+        ### Write the file ###
+        with open(sink, 'w') as f:
+            f.write(traveller.getVector(pyromb.RORB()))
+
+        # Return the results of the algorithm.
         return {self.OUTPUT: sink}
 
     def name(self):
-        return 'buildurbs'
+        """
+        Returns the algorithm name, used for identifying the algorithm. This
+        string should be fixed for the algorithm, and must not be localised.
+        The name should be unique within each provider. Names should contain
+        lowercase alphanumeric characters only and no spaces or other
+        formatting characters.
+        """
+        return 'Build RORB'
 
     def displayName(self):
-        return self.tr('Build URBS Control Vector')
+        """
+        Returns the translated algorithm name, which should be used for any
+        user-visible display of the algorithm name.
+        """
+        return self.tr(self.name())
 
     def group(self):
-        return self.tr('ROM Builder')
+        """
+        Returns the name of the group this algorithm belongs to. This string
+        should be localised.
+        """
+        return self.tr(self.groupId())
 
     def groupId(self):
-        return 'rombuilder'
-
-    def shortHelpString(self):
-        return self.tr("Build a URBS control vector file from GIS layers representing catchment reaches, basins, centroids, and confluences.\n\n"
-                       "Input layers:\n"
-                       "- Reach layer: Line features representing stream reaches\n"
-                       "- Basin layer: Polygon features representing catchment basins\n"
-                       "- Centroid layer: Point features representing basin centroids\n"
-                       "- Confluence layer: Point features representing stream confluences\n\n"
-                       "The algorithm will generate a .catg file compatible with URBS hydrological modeling software.")
-
-    def icon(self):
-        return QIcon()
+        """
+        Returns the unique ID of the group this algorithm belongs to. This
+        string should be fixed for the algorithm, and must not be localised.
+        The group id should be unique within each provider. Group id should
+        contain lowercase alphanumeric characters only and no spaces or other
+        formatting characters.
+        """
+        return ''
 
     def tr(self, string):
         return QCoreApplication.translate('Processing', string)
 
     def createInstance(self):
-        return BuildUrbsAlgorithm()
+        return BuildRorbAlgorithm()
+
+    def shortHelpString(self):
+        return self.tr("Build RORBS model files from GIS layers representing catchment reaches, basins, centroids, and confluences.\n\n"
+                       "Input layers:\n"
+                       "- Reach layer: Line features representing stream reaches with length and slope attributes\n"
+                       "- Basin layer: Polygon features representing catchment basins with area and imperviousness\n"
+                       "- Centroid layer: Point features representing basin centroids\n"
+                       "- Confluence layer: Point features representing stream confluences\n\n"
+                       "The algorithm generates one files:\n"
+                       "- .catg file: Contains subcatchment data in RORB Graphical format\n\n")

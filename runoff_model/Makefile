@@ -38,13 +38,13 @@ LOCALES =
 # translation
 SOURCES = \
 	__init__.py \
-	build_rorb.py 
+	runoff_model.py 
 
-PLUGINNAME = build_rorb
+PLUGINNAME = runoff_model
 
 PY_FILES = \
 	__init__.py \
-	build_rorb.py 
+	runoff_model.py 
 
 UI_FILES = 
 
@@ -65,7 +65,7 @@ PEP8EXCLUDE=pydev,resources.py,conf.py,third_party,ui
 #	* Windows:
 #	  AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins'
 
-QGISDIR=C:\Users\Tom\AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins
+QGISDIR=%AppData%/QGIS/QGIS3/profiles/default/python/plugins
 
 #################################################
 # Normally you would not need to edit below here

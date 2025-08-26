@@ -12,7 +12,7 @@
 """
 
 __author__ = 'Tom Norman'
-__date__ = '2025-08-20'
+__date__ = '2023-06-15'
 __copyright__ = '(C) 2025 by Tom Norman'
 
 # This will get replaced with a git SHA1 when you do a git archive
@@ -24,7 +24,7 @@ import sys
 import inspect
 
 from qgis.core import QgsProcessingAlgorithm, QgsApplication
-from .build_urbs_provider import BuildUrbsProvider
+from .runoff_model_provider import RunoffModelProvider
 
 cmd_folder = os.path.split(inspect.getfile(inspect.currentframe()))[0]
 
@@ -32,15 +32,18 @@ if cmd_folder not in sys.path:
     sys.path.insert(0, cmd_folder)
 
 
-class BuildUrbsPlugin:
+class RunoffModelPlugin(object):
 
-    def __init__(self, iface):
+    def __init__(self):
         self.provider = None
-        self.iface = iface
+
+    def initProcessing(self):
+        """Init Processing provider for QGIS >= 3.8."""
+        self.provider = RunoffModelProvider()
+        QgsApplication.processingRegistry().addProvider(self.provider)
 
     def initGui(self):
-        self.provider = BuildUrbsProvider()
-        QgsApplication.processingRegistry().addProvider(self.provider)
+        self.initProcessing()
 
     def unload(self):
         QgsApplication.processingRegistry().removeProvider(self.provider)
