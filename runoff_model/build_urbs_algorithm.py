@@ -127,9 +127,10 @@ class BuildUrbsAlgorithm(QgsProcessingAlgorithm):
         # Create URBS model with proper model name
         model_name = os.path.splitext(os.path.basename(sink))[0]
         urbs_model = pyromb.URBS(model_name)
-        
-        # Generate both .vec and .cat files
-        vec_content, cat_content = urbs_model.getFiles(traveller)
+        urbs_vector = traveller.getVector(urbs_model)
+
+        # split to vector into .vec and .cat strings. 
+        vec_content, cat_content = urbs_model.splitVector(urbs_vector)
         
         # Write .vec file
         with open(sink, 'w') as f:
