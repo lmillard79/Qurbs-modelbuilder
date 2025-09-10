@@ -29,8 +29,8 @@ This plugin requires the [Pyromb](https://github.com/norman-tom/pyromb) library 
 
 1. Open QGIS
 2. Go to Processing Toolbox
-3. Find "Build RORB, Build URBS or Build WBNM" in the algorithms list
-4. Run the "Build Control Vector" algorithm
+3. Find "Runoff Model Builder" in the algorithms list
+4. Chosen hydrological model algorithm
 5. Select your input layers:
    - Reach layer (line features)
    - Basin layer (polygon features)
