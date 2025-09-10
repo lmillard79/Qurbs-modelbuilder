@@ -6,12 +6,12 @@
 [general]
 name=Runoff Model Builder
 qgisMinimumVersion=3.0
-description=Build a RORB, WBNM or URBS control vector from a catchment.
+description=Builds RORB and URBS control vector from a catchment.
 version=1.0
 author=Tom Norman
 email=tom@ncos.com.au
 
-about=Runoff Model Builder: Builds the RORB, WBNM and URBS control vector from a catchment that has been delineated as shapefiles.
+about=Runoff Model Builder: Builds RORB and URBS control vector from a catchment that has been delineated as shapefiles.
     
     Requires the Pyromb>=0.3 library to be installed to the QGIS environment, please refer to the homepage for instructions. 
 

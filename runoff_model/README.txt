@@ -50,4 +50,8 @@ This plugin is licensed under the GNU General Public License v2.0 or later.
 
 ## Authors
 
-Tom Norman, Lindsay Millard
+Tom Norman
+
+## Contributors 
+
+Lindsay Millard
